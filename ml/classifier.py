@@ -18,7 +18,7 @@ from sklearn.metrics import classification_report, roc_auc_score
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from typing import Tuple
+from typing import Tuple, Dict
 
 
 class ATSPredictor:
