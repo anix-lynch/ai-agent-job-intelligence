@@ -21,8 +21,8 @@ class VectorStore:
         # Initialize transformer model for neural embeddings
         self.model = SentenceTransformer(model_name)
         
-        # ChromaDB for persistent vector storage
-        self.client = chromadb.Client()
+        # ChromaDB for persistent vector storage (ephemeral client)
+        self.client = chromadb.EphemeralClient()
         self.collection = self.client.get_or_create_collection(
             name="job_embeddings",
             metadata={"hnsw:space": "cosine"}  # Cosine similarity metric
