@@ -231,20 +231,27 @@ try:
         if st.button("🚀 Search Jobs", type="primary"):
             if query:
                 with st.spinner("Searching with vector embeddings..."):
-                    results = st.session_state.vector_store.search(query, k=num_results)
+                    results = st.session_state.vector_store.semantic_search(query, top_k=num_results)
                     
-                    st.success(f"Found {len(results)} matching jobs!")
+                    # ChromaDB returns: {'ids': [[...]], 'distances': [[...]], 'documents': [[...]], 'metadatas': [[...]]}
+                    num_found = len(results['ids'][0]) if results['ids'] else 0
+                    st.success(f"Found {num_found} matching jobs!")
                     
-                    for i, result in enumerate(results, 1):
-                        job = result['metadata']
-                        score = result['score']
-                        
-                        with st.expander(f"#{i} - {job['title']} @ {job['company']} ({score:.1%} match)"):
-                            display_job_card(job, score=score)
+                    if num_found > 0:
+                        for i in range(num_found):
+                            job_id = int(results['ids'][0][i])
+                            distance = results['distances'][0][i]
+                            score = 1 - distance  # Convert distance to similarity score
                             
-                            if pd.notna(job.get('description')):
-                                st.write("**Description:**")
-                                st.write(job['description'][:500] + "..." if len(str(job['description'])) > 500 else job['description'])
+                            # Get job from DataFrame using id
+                            job = jobs_df.iloc[job_id].to_dict()
+                            
+                            with st.expander(f"#{i+1} - {job['title']} @ {job['company']} ({score:.1%} match)"):
+                                display_job_card(job, score=score)
+                                
+                                if pd.notna(job.get('description')):
+                                    st.write("**Description:**")
+                                    st.write(job['description'][:500] + "..." if len(str(job['description'])) > 500 else job['description'])
             else:
                 st.warning("Please enter your resume or skills to search")
     
