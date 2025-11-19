@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  streamlit:
+    build: .
+    container_name: ai-agent-job-intelligence
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    restart: unless-stopped
