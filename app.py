@@ -264,9 +264,21 @@ try:
         st.header("🤖 AI Agent - Multi-Agent Reasoning System")
         st.write("Uses LangChain with ReAct framework for autonomous job matching")
         
-        st.info("🔑 Requires OpenAI API key (using your $300 Vertex + $200 Azure credits)")
+        st.info("💡 Choose provider - DeepSeek is 70x cheaper than GPT-4!")
         
-        api_key = st.text_input("OpenAI API Key:", type="password")
+        col1, col2 = st.columns(2)
+        with col1:
+            provider = st.selectbox(
+                "LLM Provider:",
+                ["deepseek", "openai", "together"],
+                help="DeepSeek: $0.14/$0.28 per 1M tokens | OpenAI: $10/$30 per 1M tokens"
+            )
+        with col2:
+            api_key = st.text_input(
+                f"{provider.title()} API Key:",
+                type="password",
+                help="Get DeepSeek key at: https://platform.deepseek.com"
+            )
         
         if api_key:
             # Initialize agent
