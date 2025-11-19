@@ -84,14 +84,7 @@ AI-powered job hunting platform combining:
 4. **Himalayas** - Remote job listings
 5. **Foorila** - AI/ML job postings
 
-## 💰 ROI
 
-**Target Salaries:**
-- AI Agent Orchestration: **$200K+**
-- Autonomous Reasoning: **$185K+**
-- Multi-Agent Systems: **$170K+**
-- Machine Learning: **$175K+**
-- Vector Databases: **$150K+**
 
 **Monthly Cost:** $0-10 (free tier + credits)
 
