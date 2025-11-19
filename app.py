@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 import sys
+import os
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -15,6 +16,28 @@ sys.path.insert(0, str(Path(__file__).parent))
 from ml.vector_store import VectorStore
 from ml.classifier import ATSClassifier
 from agents.langchain_agent import JobMatchingAgent
+
+# Auto-load API keys from environment
+def load_api_keys():
+    """Load API keys from global secrets or environment"""
+    keys = {}
+    
+    # Try to load from get_secret utility
+    try:
+        from utils.get_secret import get_secret
+        keys['openai'] = get_secret('OPENAI_API_KEY')
+        keys['deepseek'] = get_secret('DEEPSEEK_API_KEY')
+        keys['anthropic'] = get_secret('ANTHROPIC_API_KEY')
+    except:
+        # Fallback to environment variables
+        keys['openai'] = os.getenv('OPENAI_API_KEY')
+        keys['deepseek'] = os.getenv('DEEPSEEK_API_KEY')
+        keys['anthropic'] = os.getenv('ANTHROPIC_API_KEY')
+    
+    return {k: v for k, v in keys.items() if v}
+
+# Load keys at startup
+AUTO_LOADED_KEYS = load_api_keys()
 
 # Page config
 st.set_page_config(
