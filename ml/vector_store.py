@@ -23,7 +23,7 @@ class VectorStore:
         
         # ChromaDB for persistent vector storage
         self.client = chromadb.Client()
-        self.collection = self.client.create_collection(
+        self.collection = self.client.get_or_create_collection(
             name="job_embeddings",
             metadata={"hnsw:space": "cosine"}  # Cosine similarity metric
         )
