@@ -36,7 +36,7 @@ class VectorStore:
         """Generate vector embeddings using transformer models"""
         return self.model.encode(text, convert_to_numpy=True)
     
-    def add_documents(self, documents: List[Dict]):
+    def add_documents(self, documents: List[str], metadatas: List[Dict], ids: List[str]):
         """Add documents with vector embeddings to store
         
         Implements:
@@ -44,8 +44,7 @@ class VectorStore:
         - Neural embeddings
         - Dimensionality reduction (via transformers)
         """
-        texts = [doc["text"] for doc in documents]
-        ids = [doc["id"] for doc in documents]
+        texts = documents
         
         # Generate embeddings
         embeddings = self.model.encode(texts, convert_to_numpy=True)
