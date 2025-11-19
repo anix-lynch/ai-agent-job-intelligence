@@ -5,7 +5,7 @@ services:
     build: .
     container_name: ai-agent-job-intelligence
     ports:
-      - "8501:8501"
+      - "8502:8501"
     volumes:
       - ./data:/app/data
     environment:
